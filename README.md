@@ -17,4 +17,14 @@ Dentre as finalidades da  administração de estoques, as principais são:
 - Evitar a estocagem desnecessária;
 - Fornecer elementos para cálculo das mercadorias.
 
+# Estrutura do Projeto
+src/
+ |--- assets/   # Aqui ficará as imagens
+ |--- configs/  # Variáveis de configurações
+ |--- pages/    # As nossas páginas
+ |--- services/ # Configuração de serviços utilizados
+ |--- styles/   # Estilos globais
+ |--- App.js    # Arquivo que conterá configurações principais do App
+ |--- index.js  # Ponto de entrada para execução do nosso App
+ |--- routes.js # Arquivo contendo as principais rotas do App
 
