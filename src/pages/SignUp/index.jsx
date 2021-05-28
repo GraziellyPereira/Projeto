@@ -2,35 +2,31 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 
 import Logo from "../../assets/image-removebg-preview_(1).png";
-// image-removebg-preview_(1).png
 
 import api from "../../services/api";
-import { login } from "../../services/auth";
 
 import { Form, Container } from "./styles";
 
-class SignIn extends Component {
+class SignUp extends Component {
   state = {
+    username: "",
     email: "",
     password: "",
     error: ""
   };
 
-  handleSignIn = async e => {
+  handleSignUp = async e => {
     e.preventDefault();
-    const { email, password } = this.state;
-    if (!email || !password) {
-      this.setState({ error: "Preencha e-mail e senha para continuar!" });
+    const { username, email, password } = this.state;
+    if (!username || !email || !password) {
+      this.setState({ error: "Preencha todos os dados para se cadastrar" });
     } else {
       try {
-        const response = await api.post("/sessions", { email, password });
-        login(response.data.token);
-        this.props.history.push("/app");
+        await api.post("/user/signup", { username, email, password });
+        this.props.history.push("/");
       } catch (err) {
-        this.setState({
-          error:
-            "Houve um problema com o login, verifique suas credenciais. T.T"
-        });
+        console.log(err);
+        this.setState({ error: "Ocorreu um erro ao registrar sua conta. T.T" });
       }
     }
   };
@@ -38,9 +34,14 @@ class SignIn extends Component {
   render() {
     return (
       <Container>
-        <Form onSubmit={this.handleSignIn}>
+        <Form onSubmit={this.handleSignUp}>
           <img src={Logo} alt="Airbnb logo" />
           {this.state.error && <p>{this.state.error}</p>}
+          <input
+            type="text"
+            placeholder="Nome de usuário"
+            onChange={e => this.setState({ username: e.target.value })}
+          />
           <input
             type="email"
             placeholder="Endereço de e-mail"
@@ -51,13 +52,13 @@ class SignIn extends Component {
             placeholder="Senha"
             onChange={e => this.setState({ password: e.target.value })}
           />
-          <button type="submit">Entrar</button>
+          <button type="submit">Cadastrar</button>
           <hr />
-          <Link to="/signup">Criar conta</Link>
+          <Link to="/">Fazer login</Link>
         </Form>
       </Container>
     );
   }
 }
 
-export default withRouter(SignIn);
+export default withRouter(SignUp);
